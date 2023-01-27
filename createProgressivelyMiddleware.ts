@@ -29,7 +29,7 @@ export const createProgressivelyMiddleware =
     const progressivelyId = response.headers.get("x-progressively-id");
     if (!progressivelyId) return;
 
-    const nextRawUrl = routes[initialFlags.deploySection as any] || "/404";
+    const nextRawUrl = routes[initialFlags.deploySection as any] || "/";
     const nextUrl = NextResponse.rewrite(new URL(nextRawUrl, request.url));
     nextUrl.cookies.set("progressively-id", progressivelyId);
 
