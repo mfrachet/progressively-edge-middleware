@@ -16,6 +16,8 @@ export const createProgressivelyMiddleware =
     const id = request.cookies.get("progressively-id");
     const routes = await get("flags-config");
 
+    console.log("Routes loaded", routes);
+
     const {
       data: { initialFlags },
       response,
@@ -26,12 +28,16 @@ export const createProgressivelyMiddleware =
       },
     });
 
+    console.log("Initial flags", initialFlags);
+
     const progressivelyId = response.headers.get("x-progressively-id");
     if (!progressivelyId) return;
 
     const nextRawUrl = routes[initialFlags.deploySection as any] || "/";
     const nextUrl = NextResponse.rewrite(new URL(nextRawUrl, request.url));
     nextUrl.cookies.set("progressively-id", progressivelyId);
+
+    console.log("Next route", nextRawUrl);
 
     return nextUrl;
   };
